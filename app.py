@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from pynput.keyboard import Key, Controller
-from socket import gethostname, gethostbyname
+import socket
 from qrcode_terminal import draw
 
 app = Flask(__name__)
@@ -20,9 +20,15 @@ def page():
     return {"message": direction}
 
 
+def draw_url_qrcode(port):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    draw(f'http://{ip}:{port}')
+    s.close()
+
+
 if __name__ == '__main__':
     port = 5001
-    hostname = gethostname()
-    ip = gethostbyname(hostname)
-    draw(f'http://{ip}:{port}')
+    draw_url_qrcode(port)
     app.run(host='0.0.0.0', port=port, debug=False)
