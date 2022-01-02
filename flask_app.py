@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 from pynput.keyboard import Key, Controller
+from socket import gethostname, gethostbyname
+from qrcode_terminal import draw
 
 app = Flask(__name__)
 keyboard = Controller()
@@ -18,4 +20,8 @@ def next_page():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    port = 5001
+    hostname = gethostname()
+    ip = gethostbyname(hostname)
+    draw(f'http://{ip}:{port}')
+    app.run(host='0.0.0.0', port=port, debug=False)
