@@ -12,11 +12,18 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/next-page')
-def next_page():
-    keyboard.press(Key.space)
-    keyboard.release(Key.space)
-    return render_template('index.html')
+@app.route('/left')
+def left():
+    keyboard.press(Key.left)
+    keyboard.release(Key.left)
+    return {"message": "left"}
+
+
+@app.route('/right')
+def right():
+    keyboard.press(Key.right)
+    keyboard.release(Key.right)
+    return {"message": "right"}
 
 
 if __name__ == '__main__':
